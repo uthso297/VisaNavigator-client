@@ -12,6 +12,8 @@ import Home from './Home';
 import AddVisa from './AddVisa';
 import AllVisas from './AllVisas';
 import VisaDetails from './VisaDetails';
+import AuthProvider from './ContextProviders/AuthProvider';
+import Register from './Register';
 
 const router = createBrowserRouter([
   {
@@ -31,7 +33,7 @@ const router = createBrowserRouter([
       {
         path: "visa-details/:id",
         element: <VisaDetails></VisaDetails>,
-        loader: ({params}) => fetch(`http://localhost:5000/visa/${params.id}`)
+        loader: ({ params }) => fetch(`http://localhost:5000/visa/${params.id}`)
       },
       {
         path: "add-visa",
@@ -39,7 +41,7 @@ const router = createBrowserRouter([
       },
       {
         path: "added-visa",
-        
+
       },
       {
         path: "my-visa-application",
@@ -49,6 +51,7 @@ const router = createBrowserRouter([
       },
       {
         path: "register",
+        element: <Register></Register>
       }
     ]
   },
@@ -57,6 +60,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>,
 )
