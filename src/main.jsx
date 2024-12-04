@@ -14,6 +14,7 @@ import AllVisas from './AllVisas';
 import VisaDetails from './VisaDetails';
 import AuthProvider from './ContextProviders/AuthProvider';
 import Register from './Register';
+import Login from './Login';
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,7 @@ const router = createBrowserRouter([
       },
       {
         path: "login",
+        element: <Login></Login>
       },
       {
         path: "register",
