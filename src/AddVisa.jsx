@@ -1,5 +1,21 @@
+import { useContext } from 'react';
 import Swal from 'sweetalert2'
+import { AuthContext } from './ContextProviders/AuthProvider';
+import LoadingSpinner from './LoadingSpinner';
+
 const AddVisa = () => {
+    const { user, loading } = useContext(AuthContext);
+
+    // Return loading state until user is loaded
+    if (loading || !user) {
+        return (
+            <div className="container mx-auto p-8">
+                <LoadingSpinner></LoadingSpinner>
+            </div>
+        );
+    }
+
+    const userId = user.uid;
 
     const handleAddvisa = e => {
         e.preventDefault();
@@ -18,7 +34,6 @@ const AddVisa = () => {
         const fee = form.fee.value;
         const applicationMethod = form.applicationMethod.value;
         const validity = form.validity.value;
-
         const newVisa = {
             countryImg,
             countryName,
@@ -29,7 +44,8 @@ const AddVisa = () => {
             ageRestriction,
             fee,
             applicationMethod,
-            validity
+            validity,
+            userId
         };
 
         console.log(newVisa);
@@ -50,12 +66,19 @@ const AddVisa = () => {
                         text: 'Added your Visa',
                         icon: 'success',
                         confirmButtonText: 'Cool'
-                    })
+                    });
                     form.reset();
                 }
             })
-    }
-
+            .catch(error => {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'There was an issue adding your visa.',
+                    icon: 'error',
+                    confirmButtonText: 'Okay'
+                });
+            });
+    };
 
     return (
         <div className="container mx-auto p-8">
