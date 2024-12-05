@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./ContextProviders/AuthProvider";
 import LoadingSpinner from "./LoadingSpinner";
+import Swal from "sweetalert2";
 
 const MyVisasApplication = () => {
     const { user, loading } = useContext(AuthContext);
@@ -21,6 +22,41 @@ const MyVisasApplication = () => {
     }
 
     const applicants = appliers.filter(applier => applier.userId === user.uid);
+
+    const handelCancel = (_id) => {
+        console.log('deleting applicant: ', _id);
+        Swal.fire({
+            title: "Are you sure?",
+            text: "This applicant will be deleted",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                fetch(`http://localhost:5000/applicant/${_id}`, {
+                    method: 'DELETE'
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.deletedCount) {
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "This application has been deleted.",
+                                icon: "success"
+                            });
+
+                            const remainingApplier = appliers.filter(applier => applier._id !== _id);
+                            setAppliers(remainingApplier);
+
+                        }
+                    })
+
+            }
+        });
+    }
 
     return (
         <div className="container mx-auto p-6">
@@ -44,7 +80,7 @@ const MyVisasApplication = () => {
                                 <p className="text-gray-600">Applicant: {applier.firstName} {applier.lastName}</p>
                                 <p className="text-gray-600">Email: {applier.email}</p>
 
-                                <button className="mt-4 bg-red-500 text-white px-4 py-2 rounded-full w-full">
+                                <button onClick={() => handelCancel(applier._id)} className="mt-4 bg-red-500 text-white px-4 py-2 rounded-full w-full">
                                     Cancel Application
                                 </button>
                             </div>
