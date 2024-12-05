@@ -1,12 +1,22 @@
 import { useLoaderData } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext } from "./ContextProviders/AuthProvider";
+import LoadingSpinner from './LoadingSpinner';
+import Swal from "sweetalert2";
+
 
 const VisaDetails = () => {
     const loadedVisa = useLoaderData();
     const [showModal, setShowModal] = useState(false);
+    const { user, loading } = useContext(AuthContext);
 
-    const { user } = useContext(AuthContext);
+    if (loading || !user) {
+        return (
+            <LoadingSpinner></LoadingSpinner>
+        );
+    }
+
+    const userId = user.uid;
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -18,9 +28,41 @@ const VisaDetails = () => {
         const appliedDate = form.appliedDate.value;
         const fee = form.fee.value;
 
-        const info = { firstName, lastName, email, appliedDate, fee };
+        const { countryName, countryImg, visaType, processingTime, validity, applicationMethod } = loadedVisa
+        const applicantInfo = { firstName, lastName, email, appliedDate, fee, userId, countryName, countryImg, visaType, processingTime, validity, applicationMethod };
 
-        console.log("Form submission data:", info);
+        console.log("Form submission data:", applicantInfo);
+
+        fetch('http://localhost:5000/applicant', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify(applicantInfo),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                if (data.insertedId) {
+                    console.log('added visa');
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Added your application',
+                        icon: 'success',
+                        confirmButtonText: 'Cool'
+                    });
+                    form.reset();
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'There was an issue adding your application.',
+                    icon: 'error',
+                    confirmButtonText: 'Okay'
+                });
+            });
 
         setShowModal(false);
     };

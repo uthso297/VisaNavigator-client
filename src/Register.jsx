@@ -4,12 +4,11 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
-import { FaGoogle } from "react-icons/fa"; // Import Google icon from react-icons
+import { FaGoogle } from "react-icons/fa"; 
 
 const Register = () => {
     const { createUser, handleGoogleLogin, setUser, updateUserProfile } = useContext(AuthContext);
 
-    // State for password error
     const [passwordError, setPasswordError] = useState("");
 
     const handleRegister = (e) => {
@@ -20,16 +19,13 @@ const Register = () => {
         const photo = form.photourl.value;
         const password = form.password.value;
 
-        // Password Validation
         if (!validatePassword(password)) {
-            // Show password error toast message
             toast.error("Password must have at least 6 characters, one uppercase letter, and one lowercase letter.");
             setPasswordError("Password does not meet criteria.");
             return;
         }
 
-        // If password is valid, proceed with registration
-        setPasswordError(""); // Clear error
+        setPasswordError("");
 
         const newUser = { name, email, photo };
 
@@ -37,7 +33,6 @@ const Register = () => {
 
         createUser(email, password)
             .then((result) => {
-                // Assuming user creation is successful
                 console.log(result.user);
                 setUser(result.user);
 
@@ -50,7 +45,6 @@ const Register = () => {
                         console.log(err.message);
                     });
 
-                // Now, proceed to create the user in your database
                 fetch('http://localhost:5000/users', {
                     method: 'POST',
                     headers: {
@@ -69,7 +63,6 @@ const Register = () => {
                             });
                             form.reset();
                         } else {
-                            // Handle the case when user creation fails on the backend
                             Swal.fire({
                                 title: 'Error!',
                                 text: 'Failed to create user in the database.',
@@ -100,7 +93,6 @@ const Register = () => {
     };
 
     const validatePassword = (password) => {
-        // Password validation checks
         const hasUpperCase = /[A-Z]/.test(password);
         const hasLowerCase = /[a-z]/.test(password);
         const minLength = password.length >= 6;
@@ -135,7 +127,6 @@ const Register = () => {
                                 confirmButtonText: 'Cool'
                             });
                         } else {
-                            // Handle the case when user creation fails on the backend
                             Swal.fire({
                                 title: 'Error!',
                                 text: 'Failed to create user in the database.',

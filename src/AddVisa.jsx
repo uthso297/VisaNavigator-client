@@ -6,7 +6,6 @@ import LoadingSpinner from './LoadingSpinner';
 const AddVisa = () => {
     const { user, loading } = useContext(AuthContext);
 
-    // Return loading state until user is loaded
     if (loading || !user) {
         return (
             <div className="container mx-auto p-8">
@@ -71,6 +70,7 @@ const AddVisa = () => {
                 }
             })
             .catch(error => {
+                console.log(error)
                 Swal.fire({
                     title: 'Error!',
                     text: 'There was an issue adding your visa.',

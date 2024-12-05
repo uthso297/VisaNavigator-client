@@ -12,7 +12,6 @@ const MyAddedVisas = () => {
             .then(data => setVisas(data));
     }, []);
 
-    // If the user is not yet loaded or if loading is still true, we can return early and show a loading message.
     if (loading || !user) {
         return (
             <div className="container mx-auto p-6">
@@ -21,7 +20,6 @@ const MyAddedVisas = () => {
         );
     }
 
-    // Filter visas by the current user's UID only if the user is loaded
     const userVisas = visas.filter(visa => visa.userId === user.uid);
 
     return (

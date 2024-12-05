@@ -9,6 +9,7 @@ const Headers = () => {
 
     const handleLogout = () => {
         signOutUser();
+        navigate('/');
     };
 
     const handleAddVisa = () => {
