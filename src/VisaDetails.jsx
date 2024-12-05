@@ -1,9 +1,12 @@
 import { useLoaderData } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "./ContextProviders/AuthProvider";
 
 const VisaDetails = () => {
     const loadedVisa = useLoaderData();
     const [showModal, setShowModal] = useState(false);
+
+    const { user } = useContext(AuthContext);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -19,7 +22,7 @@ const VisaDetails = () => {
 
         console.log("Form submission data:", info);
 
-        setShowModal(false); 
+        setShowModal(false);
     };
 
     return (
@@ -67,7 +70,7 @@ const VisaDetails = () => {
                                 <input
                                     type="email"
                                     name="email"
-                                    value="user@example.com"
+                                    value={user.email}
                                     disabled
                                     className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100"
                                 />

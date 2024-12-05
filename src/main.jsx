@@ -15,6 +15,8 @@ import VisaDetails from './VisaDetails';
 import AuthProvider from './ContextProviders/AuthProvider';
 import Register from './Register';
 import Login from './Login';
+import MyAddedVisas from './MyAddedVisas';
+import MyVisasApplication from './MyVisasApplication';
 
 const router = createBrowserRouter([
   {
@@ -42,10 +44,12 @@ const router = createBrowserRouter([
       },
       {
         path: "added-visa",
+        element: <MyAddedVisas></MyAddedVisas>
 
       },
       {
         path: "my-visa-application",
+        element: <MyVisasApplication></MyVisasApplication>
       },
       {
         path: "login",
