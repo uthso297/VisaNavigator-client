@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa"; // Import Google icon from react-icons
 
 const Register = () => {
-    const { createUser, handleGoogleLogin } = useContext(AuthContext);
+    const { createUser, handleGoogleLogin, setUser, updateUserProfile } = useContext(AuthContext);
 
     // State for password error
     const [passwordError, setPasswordError] = useState("");
@@ -17,7 +17,7 @@ const Register = () => {
         const form = e.target;
         const name = form.name.value;
         const email = form.email.value;
-        const photoURL = form.photoURL.value;
+        const photo = form.photourl.value;
         const password = form.password.value;
 
         // Password Validation
@@ -31,7 +31,7 @@ const Register = () => {
         // If password is valid, proceed with registration
         setPasswordError(""); // Clear error
 
-        const newUser = { name, email, photoURL };
+        const newUser = { name, email, photo };
 
         console.log(newUser, password);
 
@@ -39,6 +39,16 @@ const Register = () => {
             .then((result) => {
                 // Assuming user creation is successful
                 console.log(result.user);
+                setUser(result.user);
+
+                updateUserProfile({ displayName: name, photoURL: photo })
+                    .then(() => {
+                        // navigate("/");
+
+                    })
+                    .catch((err) => {
+                        console.log(err.message);
+                    });
 
                 // Now, proceed to create the user in your database
                 fetch('http://localhost:5000/users', {
@@ -104,9 +114,9 @@ const Register = () => {
                 console.log(result.user)
                 const name = result.user.displayName
                 const email = result.user.email
-                const photoURL = result.user.photoURL
+                const photo = result.user.photoURL
 
-                const newUser = { name, email, photoURL }
+                const newUser = { name, email, photo }
 
                 fetch('http://localhost:5000/users', {
                     method: 'POST',
@@ -180,12 +190,12 @@ const Register = () => {
 
                     {/* Photo URL Input */}
                     <div>
-                        <label htmlFor="photoURL" className="block text-sm font-semibold text-gray-700">
+                        <label htmlFor="photourl" className="block text-sm font-semibold text-gray-700">
                             Photo URL
                         </label>
                         <input
                             type="text"
-                            name="photoURL"
+                            name="photourl"
                             placeholder="Enter your photo URL"
                             className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                         />

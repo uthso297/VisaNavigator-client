@@ -1,10 +1,12 @@
 import { useContext } from "react";
 import { FaGoogle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "./ContextProviders/AuthProvider";
+import Swal from "sweetalert2";
 
 const Login = () => {
     const { signInUser, handleGoogleLogin } = useContext(AuthContext)
+    const navigate = useNavigate();
     const handleLogin = e => {
         e.preventDefault();
         const form = e.target;
@@ -18,6 +20,7 @@ const Login = () => {
                 const user = result.user;
                 console.log(user);
                 form.reset();
+                navigate('/');
 
             })
             .catch(error => {
@@ -29,14 +32,82 @@ const Login = () => {
 
     const handleGoogle = () => {
         handleGoogleLogin()
-            .then(result => {
-                const user = result.user
-                console.log(user)
+            .then((result) => {
+                console.log(result.user);
+                const name = result.user.displayName;
+                const email = result.user.email;
+                const photo = result.user.photoURL;
+
+                const newUser = { name, email, photo };
+
+                fetch(`http://localhost:5000/users?email=${email}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data && data.length > 0) {
+                            Swal.fire({
+                                title: 'Welcome back!',
+                                text: 'User login successful.',
+                                icon: 'success',
+                                confirmButtonText: 'Cool',
+                            });
+                            navigate('/');
+
+                        } else {
+                            fetch('http://localhost:5000/users', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(newUser),
+                            })
+                                .then(res => res.json())
+                                .then(data => {
+                                    if (data.insertedId) {
+                                        Swal.fire({
+                                            title: 'Success!',
+                                            text: 'User created and logged in successfully.',
+                                            icon: 'success',
+                                            confirmButtonText: 'Cool',
+                                        });
+                                        navigate('/');
+
+                                    } else {
+                                        Swal.fire({
+                                            title: 'Error!',
+                                            text: 'Failed to create user in the database.',
+                                            icon: 'error',
+                                            confirmButtonText: 'Try Again',
+                                        });
+                                    }
+                                });
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Error checking user:', err);
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'There was an error checking the user in the database.',
+                            icon: 'error',
+                            confirmButtonText: 'Try Again',
+                        });
+                    });
             })
-            .catch(error => {
-                console.log(error.message)
-            })
-    }
+            .catch((err) => {
+                alert(err.message);
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'There was an error with your registration.',
+                    icon: 'error',
+                    confirmButtonText: 'Try Again',
+                });
+            });
+    };
+
 
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center">

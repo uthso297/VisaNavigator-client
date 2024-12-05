@@ -1,8 +1,14 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { AuthContext } from './ContextProviders/AuthProvider';
 
 const Headers = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const { user, signOutUser } = useContext(AuthContext);
+
+    const handleLogout = () => {
+        signOutUser();
+    };
 
     return (
         <div>
@@ -46,13 +52,38 @@ const Headers = () => {
 
                         {/* Desktop Navbar Links */}
                         <div className="hidden lg:flex space-x-4">
-                            <a href="/" className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Home</a>
-                            <a href="/all-visas" className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium">All Visas</a>
-                            <a href="/add-visa" className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Add Visa</a>
-                            <a href="/my-added-visas" className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium">My Added Visas</a>
-                            <a href="/my-visa-applications" className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium">My Visa Applications</a>
-                            <a href="/login" className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Login</a>
-                            <a href="/register" className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Register</a>
+                            <NavLink to={"/"} className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Home</NavLink>
+                            <NavLink to={"/all-visas"} className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium">All Visas</NavLink>
+                            <NavLink to={"/add-visa"} className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Add Visa</NavLink>
+                            <NavLink to={"/my-added-visas"} className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium">My Added Visas</NavLink>
+                            <NavLink to={"/my-visa-applications"} className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium">My Visa Applications</NavLink>
+
+                            {user ? (
+                                <div className="relative flex items-center space-x-3">
+                                    {/* User Photo */}
+                                    <img
+                                        className="h-8 w-8 rounded-full border-2 border-gray-300 hover:ring-2 hover:ring-blue-500 cursor-pointer"
+                                        src={user?.photoURL}
+                                        alt="User"
+                                    />
+
+                                    {/* Username and Logout */}
+                                    <div className="flex items-center space-x-2">
+                                        <div className="hidden lg:block text-white text-sm">{user?.displayName}</div>
+                                        <button
+                                            onClick={handleLogout}
+                                            className="text-red-500 text-sm hover:text-red-400"
+                                        >
+                                            Logout
+                                        </button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <>
+                                    <NavLink to={"/login"} className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Login</NavLink>
+                                    <NavLink to={"/register"} className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Register</NavLink>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -67,10 +98,32 @@ const Headers = () => {
                     <NavLink to={"/"} className="block text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Home</NavLink>
                     <NavLink to={"/all-visas"} className="block text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">All Visas</NavLink>
                     <NavLink to={"/add-visa"} className="block text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Add Visa</NavLink>
-                    <NavLink to={"/added-visa"} className="block text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">My Added Visas</NavLink>
-                    <NavLink to={"/my-visa-application"} className="block text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">My Visa Applications</NavLink>
-                    <NavLink to={"/login"} className="block text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Login</NavLink>
-                    <NavLink to={"/register"} className="block text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Register</NavLink>
+                    <NavLink to={"/my-added-visas"} className="block text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">My Added Visas</NavLink>
+                    <NavLink to={"/my-visa-applications"} className="block text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">My Visa Applications</NavLink>
+
+                    {user ? (
+                        <div className="flex items-center justify-between space-x-2">
+                            <img
+                                className="h-8 w-8 rounded-full"
+                                src={user?.photoURL}
+                                alt="User"
+                            />
+                            <div className="flex flex-col">
+                                <span className="text-sm text-white">{user?.displayName}</span>
+                                <button
+                                    onClick={handleLogout}
+                                    className="text-sm text-red-500 hover:text-red-400"
+                                >
+                                    Logout
+                                </button>
+                            </div>
+                        </div>
+                    ) : (
+                        <>
+                            <NavLink to={"/login"} className="block text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Login</NavLink>
+                            <NavLink to={"/register"} className="block text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Register</NavLink>
+                        </>
+                    )}
                 </div>
             </div>
         </div>
