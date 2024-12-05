@@ -5,7 +5,7 @@ import { AuthContext } from './ContextProviders/AuthProvider';
 const Headers = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const { user, signOutUser } = useContext(AuthContext);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const handleLogout = () => {
         signOutUser();
@@ -13,16 +13,16 @@ const Headers = () => {
     };
 
     const handleAddVisa = () => {
-        navigate('/login')
-    }
+        navigate('/login');
+    };
 
     const handleMyAddVisa = () => {
-        navigate('/login')
-    }
+        navigate('/login');
+    };
 
     const handleApplication = () => {
-        navigate('/login')
-    }
+        navigate('/login');
+    };
 
     return (
         <div>
@@ -69,49 +69,48 @@ const Headers = () => {
                             <NavLink to={"/"} className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Home</NavLink>
                             <NavLink to={"/all-visas"} className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium">All Visas</NavLink>
 
-
                             {
-                                user ?
-                                    (<NavLink to={"/add-visa"} className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Add Visa</NavLink>)
-                                    :
-                                    (<button className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium" onClick={handleAddVisa}>Add Visa</button>)
-                            }
-
-
-                            {
-                                user ?
-                                    (<NavLink to={"/added-visa"} className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium">My Added Visas</NavLink>)
-                                    :
-                                    (<button className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium" onClick={handleMyAddVisa}>My Added Visas</button>)
+                                user ? 
+                                (<NavLink to={"/add-visa"} className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Add Visa</NavLink>) 
+                                : 
+                                (<button className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium" onClick={handleAddVisa}>Add Visa</button>)
                             }
 
                             {
-                                user ?
-                                    (<NavLink to={"/my-visa-application"} className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium">My Visa Applications</NavLink>)
-                                    :
-                                    (<button className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium" onClick={handleApplication}>My Visa Applications</button>)
+                                user ? 
+                                (<NavLink to={"/added-visa"} className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium">My Added Visas</NavLink>) 
+                                : 
+                                (<button className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium" onClick={handleMyAddVisa}>My Added Visas</button>)
                             }
 
+                            {
+                                user ? 
+                                (<NavLink to={"/my-visa-application"} className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium">My Visa Applications</NavLink>) 
+                                : 
+                                (<button className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium" onClick={handleApplication}>My Visa Applications</button>)
+                            }
 
                             {user ? (
                                 <div className="relative flex items-center space-x-3">
                                     {/* User Photo */}
-                                    <img
-                                        className="h-8 w-8 rounded-full border-2 border-gray-300 hover:ring-2 hover:ring-blue-500 cursor-pointer"
-                                        src={user?.photoURL}
-                                        alt="User"
-                                    />
-
-                                    {/* Username and Logout */}
-                                    <div className="flex items-center space-x-2">
-                                        <div className="hidden lg:block text-white text-sm">{user?.displayName}</div>
-                                        <button
-                                            onClick={handleLogout}
-                                            className="text-red-500 text-sm hover:text-red-400"
-                                        >
-                                            Logout
-                                        </button>
+                                    <div className="group">
+                                        <img
+                                            className="h-8 w-8 rounded-full border-2 border-gray-300 hover:ring-2 hover:ring-blue-500 cursor-pointer"
+                                            src={user?.photoURL}
+                                            alt="User"
+                                        />
+                                        <div className="absolute mt-2 hidden group-hover:block bg-gray-700 text-white text-sm rounded-md p-2 z-50">
+                                            {user?.displayName}
+                                        </div>
                                     </div>
+
+                                    {/* Logout */}
+                                    <button
+                                        onClick={handleLogout}
+                                        className="text-white text-sm hover:text-red-400"
+                                    >
+                                        Logout
+                                    </button>
                                 </div>
                             ) : (
                                 <>
@@ -134,24 +133,23 @@ const Headers = () => {
                     <NavLink to={"/all-visas"} className="block text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">All Visas</NavLink>
 
                     {
-                        user ?
-                            (<NavLink to={"/add-visa"} className="block text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Add Visa</NavLink>)
-                            :
-                            (<button className="block text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium" onClick={handleAddVisa}>Add Visa</button>)
+                        user ? 
+                        (<NavLink to={"/add-visa"} className="block text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Add Visa</NavLink>) 
+                        : 
+                        (<button className="block text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium" onClick={handleAddVisa}>Add Visa</button>)
                     }
 
-
                     {
-                        user ?
-                            (<NavLink to={"/added-visa"} className="block text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">My Added Visas</NavLink>)
-                            :
-                            (<button className="block text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium" onClick={handleMyAddVisa}>My Added Visas</button>)
+                        user ? 
+                        (<NavLink to={"/added-visa"} className="block text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">My Added Visas</NavLink>) 
+                        : 
+                        (<button className="block text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium" onClick={handleMyAddVisa}>My Added Visas</button>)
                     }
                     {
-                        user ?
-                            (<NavLink to={"/my-visa-application"} className="block text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">My Visa Applications</NavLink>)
-                            :
-                            (<button className="block text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium" onClick={handleApplication}>My Visa Applications</button>)
+                        user ? 
+                        (<NavLink to={"/my-visa-application"} className="block text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">My Visa Applications</NavLink>) 
+                        : 
+                        (<button className="block text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium" onClick={handleApplication}>My Visa Applications</button>)
                     }
 
                     {user ? (
