@@ -1,9 +1,17 @@
-import { Link, useLoaderData } from "react-router-dom";
+import { useContext } from "react";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
+import { AuthContext } from "./ContextProviders/AuthProvider";
 
 const AllVisas = () => {
     const loadedVisas = useLoaderData();
 
+    const navigate = useNavigate();
 
+    const { user } = useContext(AuthContext)
+
+    const handleDetails = () => {
+        navigate('/login')
+    }
 
     return (
         <div className="container mx-auto px-4 py-10">
@@ -16,13 +24,25 @@ const AllVisas = () => {
                             <h3 className="text-xl font-semibold text-gray-800 mb-2">{visa.countryName}</h3>
                             <p className="text-sm text-gray-600">Visa Type: {visa.visaType}</p>
                             <p className="text-sm text-gray-600">Processing Time: {visa.processingTime}</p>
-                            <Link to={`/visa-details/${visa._id}`}>
-                                <button
-                                    className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300"
-                                >
-                                    See Details
-                                </button>
-                            </Link>
+                            {
+                                user ?
+                                    (<Link to={`/visa-details/${visa._id}`}>
+                                        <button
+                                            className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300"
+                                        >
+                                            See Details
+                                        </button>
+                                    </Link>)
+                                    :
+                                    (
+                                        <button onClick={handleDetails}
+                                            className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300"
+                                        >
+                                            See Details
+                                        </button>
+
+                                    )
+                            }
                         </div>
                     </div>
                 ))}
