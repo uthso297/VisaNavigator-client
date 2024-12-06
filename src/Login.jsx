@@ -5,7 +5,7 @@ import { AuthContext } from "./ContextProviders/AuthProvider";
 import Swal from "sweetalert2";
 
 const Login = () => {
-    const { signInUser, handleGoogleLogin } = useContext(AuthContext)
+    const { signInUser, handleGoogleLogin,setUser } = useContext(AuthContext)
     const navigate = useNavigate();
     const handleLogin = e => {
         e.preventDefault();
@@ -13,18 +13,18 @@ const Login = () => {
 
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email, password);
+        // console.log(email, password);
 
         signInUser(email, password)
             .then(result => {
                 const user = result.user;
-                console.log(user);
+                setUser(user);
                 form.reset();
                 navigate('/');
 
             })
             .catch(error => {
-                console.log(error.message);
+                alert(error.message);
             });
 
 
@@ -33,7 +33,7 @@ const Login = () => {
     const handleGoogle = () => {
         handleGoogleLogin()
             .then((result) => {
-                console.log(result.user);
+                // console.log(result.user);
                 const name = result.user.displayName;
                 const email = result.user.email;
                 const photo = result.user.photoURL;
@@ -88,7 +88,7 @@ const Login = () => {
                         }
                     })
                     .catch(err => {
-                        console.error('Error checking user:', err);
+                        alert(err);
                         Swal.fire({
                             title: 'Error!',
                             text: 'There was an error checking the user in the database.',

@@ -31,7 +31,7 @@ const VisaDetails = () => {
         const { countryName, countryImg, visaType, processingTime, validity, applicationMethod } = loadedVisa
         const applicantInfo = { firstName, lastName, email, appliedDate, fee, userId, countryName, countryImg, visaType, processingTime, validity, applicationMethod };
 
-        console.log("Form submission data:", applicantInfo);
+        // console.log("Form submission data:", applicantInfo);
 
         fetch('http://localhost:5000/applicant', {
             method: 'POST',
@@ -42,9 +42,9 @@ const VisaDetails = () => {
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log(data);
+                // console.log(data);
                 if (data.insertedId) {
-                    console.log('added visa');
+                    // console.log('added visa');
                     Swal.fire({
                         title: 'Success!',
                         text: 'Added your application',
@@ -55,7 +55,7 @@ const VisaDetails = () => {
                 }
             })
             .catch((error) => {
-                console.log(error);
+                alert(error);
                 Swal.fire({
                     title: 'Error!',
                     text: 'There was an issue adding your application.',

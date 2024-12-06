@@ -47,7 +47,7 @@ const AddVisa = () => {
             userId
         };
 
-        console.log(newVisa);
+        // console.log(newVisa);
 
         fetch('http://localhost:5000/visa', {
             method: 'POST',
@@ -58,7 +58,7 @@ const AddVisa = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 if (data.insertedId) {
                     Swal.fire({
                         title: 'Success!',
@@ -70,7 +70,7 @@ const AddVisa = () => {
                 }
             })
             .catch(error => {
-                console.log(error)
+                alert(error)
                 Swal.fire({
                     title: 'Error!',
                     text: 'There was an issue adding your visa.',

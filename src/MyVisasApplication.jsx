@@ -24,7 +24,7 @@ const MyVisasApplication = () => {
     const applicants = appliers.filter(applier => applier.userId === user.uid);
 
     const handelCancel = (_id) => {
-        console.log('deleting applicant: ', _id);
+        // console.log('deleting applicant: ', _id);
         Swal.fire({
             title: "Are you sure?",
             text: "This applicant will be deleted",

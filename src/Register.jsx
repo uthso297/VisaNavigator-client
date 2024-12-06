@@ -3,13 +3,13 @@ import { AuthContext } from "./ContextProviders/AuthProvider";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
-import { Link } from "react-router-dom";
-import { FaGoogle } from "react-icons/fa"; 
+import { Link, useNavigate } from "react-router-dom";
+import { FaGoogle } from "react-icons/fa";
 
 const Register = () => {
     const { createUser, handleGoogleLogin, setUser, updateUserProfile } = useContext(AuthContext);
-
     const [passwordError, setPasswordError] = useState("");
+    const navigate = useNavigate();
 
     const handleRegister = (e) => {
         e.preventDefault();
@@ -25,69 +25,51 @@ const Register = () => {
             return;
         }
 
-        setPasswordError("");
+        setPasswordError(""); 
 
         const newUser = { name, email, photo };
 
-        console.log(newUser, password);
-
         createUser(email, password)
             .then((result) => {
-                console.log(result.user);
                 setUser(result.user);
 
-                updateUserProfile({ displayName: name, photoURL: photo })
-                    .then(() => {
-                        // navigate("/");
-
-                    })
-                    .catch((err) => {
-                        console.log(err.message);
-                    });
-
-                fetch('http://localhost:5000/users', {
+                return updateUserProfile({ displayName: name, photoURL: photo });
+            })
+            .then(() => {
+                return fetch('http://localhost:5000/users', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(newUser)
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.insertedId) {
-                            Swal.fire({
-                                title: 'Success!',
-                                text: 'User Registration Successful',
-                                icon: 'success',
-                                confirmButtonText: 'Cool'
-                            });
-                            form.reset();
-                        } else {
-                            Swal.fire({
-                                title: 'Error!',
-                                text: 'Failed to create user in the database.',
-                                icon: 'error',
-                                confirmButtonText: 'Try Again'
-                            });
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error creating user in the database:', error);
-                        Swal.fire({
-                            title: 'Error!',
-                            text: 'There was an error with your registration.',
-                            icon: 'error',
-                            confirmButtonText: 'Try Again'
-                        });
-                    });
+                    body: JSON.stringify(newUser),
+                });
             })
-            .catch((error) => {
-                console.log(error.message);
+            .then(res => res.json())
+            .then(data => {
+                if (data.insertedId) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'User Registration Successful',
+                        icon: 'success',
+                        confirmButtonText: 'Cool',
+                    });
+                    navigate('/'); 
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Failed to create user in the database.',
+                        icon: 'error',
+                        confirmButtonText: 'Try Again',
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error during registration:', error);
                 Swal.fire({
                     title: 'Error!',
                     text: 'There was an error with your registration.',
                     icon: 'error',
-                    confirmButtonText: 'Try Again'
+                    confirmButtonText: 'Try Again',
                 });
             });
     };
@@ -103,50 +85,49 @@ const Register = () => {
     const handleGoogle = () => {
         handleGoogleLogin()
             .then((result) => {
-                console.log(result.user)
-                const name = result.user.displayName
-                const email = result.user.email
-                const photo = result.user.photoURL
+                const name = result.user.displayName;
+                const email = result.user.email;
+                const photo = result.user.photoURL;
 
-                const newUser = { name, email, photo }
+                const newUser = { name, email, photo };
 
-                fetch('http://localhost:5000/users', {
+                return fetch('http://localhost:5000/users', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(newUser)
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.insertedId) {
-                            Swal.fire({
-                                title: 'Success!',
-                                text: 'User Registration Successful',
-                                icon: 'success',
-                                confirmButtonText: 'Cool'
-                            });
-                        } else {
-                            Swal.fire({
-                                title: 'Error!',
-                                text: 'Failed to create user in the database.',
-                                icon: 'error',
-                                confirmButtonText: 'Try Again'
-                            });
-                        }
-                    })
-
+                    body: JSON.stringify(newUser),
+                });
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.insertedId) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'User Registration Successful',
+                        icon: 'success',
+                        confirmButtonText: 'Cool',
+                    });
+                    navigate('/'); 
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Failed to create user in the database.',
+                        icon: 'error',
+                        confirmButtonText: 'Try Again',
+                    });
+                }
             })
             .catch((err) => {
-                alert(err.message);
+                console.error('Error during Google login or user creation:', err);
                 Swal.fire({
                     title: 'Error!',
                     text: 'There was an error with your registration.',
                     icon: 'error',
-                    confirmButtonText: 'Try Again'
+                    confirmButtonText: 'Try Again',
                 });
-            })
-    }
+            });
+    };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
