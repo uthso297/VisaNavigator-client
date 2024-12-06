@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import Carousel from "./Carousel";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "./ContextProviders/AuthProvider";
+import { Typewriter } from 'react-simple-typewriter';
 
 const Home = () => {
     const [visas, setVisas] = useState([]);
@@ -60,9 +61,19 @@ const Home = () => {
             {/* Header Section with VisaGate and Theme Toggle */}
             <header className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 shadow-md">
                 <div className="text-2xl font-bold text-gray-800 dark:text-white">
-                    A Visa Navigator Portal
+                    <span>Visa is simple....</span>
+                    <span className="font-semibold text-blue-600">
+                        <Typewriter
+                            words={['Login', 'Apply', 'GO', 'Repeat!']} 
+                            loop={true} 
+                            cursor
+                            cursorStyle="_" 
+                            typeSpeed={100} 
+                            deleteSpeed={50} 
+                            delaySpeed={1500} 
+                        />
+                    </span>
                 </div>
-
                 {/* Theme Toggle Button beside VisaGate */}
                 <button
                     onClick={toggleTheme}
