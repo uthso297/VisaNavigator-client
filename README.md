@@ -1,8 +1,8 @@
-# React + Vite
+Website name: VisaGate
+Live site URL: https://visa-navigator-portal-f4954.web.app/
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+*User registration and login
+*Add,Delete,Update visa
+*Apply for visa and also delete application
+*Private route for protecting user informations(e.g. Who added which visa,application)
+*React tooltip in website name and react typewriter packeges
