@@ -8,7 +8,7 @@ const MyVisasApplication = () => {
     const [appliers, setAppliers] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/applicant')
+        fetch('https://visa-navigator-server-iota.vercel.app/applicant')
             .then(res => res.json())
             .then(data => setAppliers(data));
     }, []);
@@ -36,7 +36,7 @@ const MyVisasApplication = () => {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                fetch(`http://localhost:5000/applicant/${_id}`, {
+                fetch(`https://visa-navigator-server-iota.vercel.app/applicant/${_id}`, {
                     method: 'DELETE'
                 })
                     .then(res => res.json())

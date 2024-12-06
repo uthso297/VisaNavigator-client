@@ -36,7 +36,7 @@ const Register = () => {
                 return updateUserProfile({ displayName: name, photoURL: photo });
             })
             .then(() => {
-                return fetch('http://localhost:5000/users', {
+                return fetch('https://visa-navigator-server-iota.vercel.app/users', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -91,7 +91,7 @@ const Register = () => {
 
                 const newUser = { name, email, photo };
 
-                return fetch('http://localhost:5000/users', {
+                return fetch('https://visa-navigator-server-iota.vercel.app/users', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

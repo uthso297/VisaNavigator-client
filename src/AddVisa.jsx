@@ -49,7 +49,7 @@ const AddVisa = () => {
 
         // console.log(newVisa);
 
-        fetch('http://localhost:5000/visa', {
+        fetch('https://visa-navigator-server-iota.vercel.app/visa', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

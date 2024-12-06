@@ -9,7 +9,7 @@ const Home = () => {
     useEffect(() => {
         const fetchVisas = async () => {
             try {
-                const response = await fetch("http://localhost:5000/visa-limited"); 
+                const response = await fetch("https://visa-navigator-server-iota.vercel.app/visa-limited"); 
                 const data = await response.json();
                 setVisas(data);
             } catch (error) {

@@ -40,7 +40,7 @@ const Login = () => {
 
                 const newUser = { name, email, photo };
 
-                fetch(`http://localhost:5000/users?email=${email}`, {
+                fetch(`https://visa-navigator-server-iota.vercel.app/users?email=${email}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ const Login = () => {
                             navigate('/');
 
                         } else {
-                            fetch('http://localhost:5000/users', {
+                            fetch('https://visa-navigator-server-iota.vercel.app/users', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',

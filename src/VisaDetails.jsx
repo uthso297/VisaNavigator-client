@@ -33,7 +33,7 @@ const VisaDetails = () => {
 
         // console.log("Form submission data:", applicantInfo);
 
-        fetch('http://localhost:5000/applicant', {
+        fetch('https://visa-navigator-server-iota.vercel.app/applicant', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',

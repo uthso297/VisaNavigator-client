@@ -11,7 +11,7 @@ const MyAddedVisas = () => {
     const [updatedVisa, setUpdatedVisa] = useState({});
 
     useEffect(() => {
-        fetch('http://localhost:5000/visa')
+        fetch('https://visa-navigator-server-iota.vercel.app/visa')
             .then(res => res.json())
             .then(data => setVisas(data));
     }, []);
@@ -37,7 +37,7 @@ const MyAddedVisas = () => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:5000/visa/${_id}`, {
+                fetch(`https://visa-navigator-server-iota.vercel.app/visa/${_id}`, {
                     method: 'DELETE'
                 })
                     .then(res => res.json())
@@ -79,7 +79,7 @@ const MyAddedVisas = () => {
     };
 
     const handleSaveChanges = () => {
-        fetch(`http://localhost:5000/visa/${selectedVisa._id}`, {
+        fetch(`https://visa-navigator-server-iota.vercel.app/visa/${selectedVisa._id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

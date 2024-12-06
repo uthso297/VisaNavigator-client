@@ -31,12 +31,12 @@ const router = createBrowserRouter([
       {
         path: "all-visas",
         element: <AllVisas></AllVisas>,
-        loader: () => fetch('http://localhost:5000/visa')
+        loader: () => fetch('https://visa-navigator-server-iota.vercel.app/visa')
       },
       {
         path: "visa-details/:id",
         element: <VisaDetails></VisaDetails>,
-        loader: ({ params }) => fetch(`http://localhost:5000/visa/${params.id}`)
+        loader: ({ params }) => fetch(`https://visa-navigator-server-iota.vercel.app/visa/${params.id}`)
       },
       {
         path: "add-visa",
