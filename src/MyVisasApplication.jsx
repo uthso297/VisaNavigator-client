@@ -6,12 +6,29 @@ import Swal from "sweetalert2";
 const MyVisasApplication = () => {
     const { user, loading } = useContext(AuthContext);
     const [appliers, setAppliers] = useState([]);
+    const [searchTerm, setSearchTerm] = useState(""); 
+    const [filteredApplicants, setFilteredApplicants] = useState([]); 
 
     useEffect(() => {
         fetch('https://visa-navigator-server-iota.vercel.app/applicant')
             .then(res => res.json())
-            .then(data => setAppliers(data));
+            .then(data => {
+                setAppliers(data);
+                setFilteredApplicants(data); 
+            });
     }, []);
+
+    useEffect(() => {
+        
+        if (searchTerm === "") {
+            setFilteredApplicants(appliers); 
+        } else {
+            const filtered = appliers.filter(applier =>
+                applier.countryName.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            setFilteredApplicants(filtered); 
+        }
+    }, [searchTerm, appliers]);
 
     if (loading || !user) {
         return (
@@ -21,10 +38,9 @@ const MyVisasApplication = () => {
         );
     }
 
-    const applicants = appliers.filter(applier => applier.userId === user.uid);
+    const applicants = filteredApplicants.filter(applier => applier.userId === user.uid);
 
     const handelCancel = (_id) => {
-        // console.log('deleting applicant: ', _id);
         Swal.fire({
             title: "Are you sure?",
             text: "This applicant will be deleted",
@@ -61,6 +77,17 @@ const MyVisasApplication = () => {
     return (
         <div className="container mx-auto p-6">
             <h2 className="text-3xl font-semibold text-center mb-8">My Visa Applications</h2>
+
+            {/* Search Input Field */}
+            <div className="mb-6 flex justify-center">
+                <input
+                    type="text"
+                    placeholder="Search by country"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)} // update search term
+                    className="border border-gray-300 rounded-lg px-4 py-2 w-1/2"
+                />
+            </div>
 
             {applicants.length === 0 ? (
                 <div className="text-center text-xl">You haven&apos;t applied for any visas yet.</div>
